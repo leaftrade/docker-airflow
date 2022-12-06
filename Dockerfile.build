@@ -1,4 +1,4 @@
-FROM apache/airflow:2.5.0-python3.10
+FROM apache/airflow:2.2.2-python3.8
 
 MAINTAINER jbarry <john.barry@leaftrade.com>
 
@@ -7,7 +7,7 @@ COPY requirements.txt /requirements.txt
 RUN  pip install pytz \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
-    && pip install 'apache-airflow[amazon,google,celery,password,postgres,redis,slack]==2.5.0'\
+    && pip install 'apache-airflow[amazon,google,celery,password,postgres,redis,slack]==2.2.2'\
     && pip install --requirement /requirements.txt 
 
 COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
