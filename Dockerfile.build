@@ -10,6 +10,8 @@ RUN  pip install pytz \
     && pip install 'apache-airflow[amazon,google,celery,password,postgres,redis,slack]==2.5.0'\
     && pip install --requirement /requirements.txt 
 
+RUN airflow db upgrade
+
 COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 
 RUN curl https://s3.amazonaws.com/rds-downloads/rds-ca-2019-root.pem > ${AIRFLOW_HOME}/awssslcert.pem
