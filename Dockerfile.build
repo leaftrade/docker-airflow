@@ -2,6 +2,15 @@ FROM apache/airflow:2.2.2-python3.8
 
 MAINTAINER jbarry <john.barry@leaftrade.com>
 
+#Hardcoded version until we find a better solution, this sucks
+RUN apt remove -y postgresql-client-11 &&\
+    apt update &&\
+    apt install -y wget &&\
+    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' &&\
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - &&\
+    apt update &&\
+    apt install -y postgresql-client-15
+
 COPY requirements.txt /requirements.txt
 
 RUN  pip install pytz \
@@ -14,15 +23,6 @@ COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 
 RUN curl https://s3.amazonaws.com/rds-downloads/rds-ca-2019-root.pem > ${AIRFLOW_HOME}/awssslcert.pem
 #RUN chown -R airflow: ${AIRFLOW_HOME}
-
-#Hardcoded version until we find a better solution, this sucks
-RUN apt remove -y postgresql-client-11 &&\
-    apt update &&\
-    apt install -y wget &&\
-    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' &&\
-    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - &&\
-    apt update &&\
-    apt install -y postgresql-client-15
 
 EXPOSE 8080 5555 8793 6739
 
