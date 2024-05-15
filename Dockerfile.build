@@ -12,7 +12,7 @@ RUN  pip install pytz \
 
 COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 
-RUN curl https://s3.amazonaws.com/rds-downloads/rds-ca-2019-root.pem > ${AIRFLOW_HOME}/awssslcert.pem
+RUN curl https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem > ${AIRFLOW_HOME}/awssslcert.pem
 #RUN chown -R airflow: ${AIRFLOW_HOME}
 
 USER root
